@@ -24,8 +24,8 @@ pip install aiohttp
 PYTHON_VERSION=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
 
 # 从 GitHub 下载并替换文件
-sudo curl -o /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/Peek426/setup/policy.xml
-sudo curl -o /usr/local/lib/python${PYTHON_VERSION}/dist-packages/FastTelethonhelper/__init__.py https://raw.githubusercontent.com/Peek426/setup/__init__.py
-sudo curl -o /usr/local/lib/python${PYTHON_VERSION}/dist-packages/telethon/client/uploads.py https://raw.githubusercontent.com/Peek426/setup/uploads.py
+sudo curl -o /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/Peek426/setup/main/policy.xml
+sudo curl -o /usr/local/lib/python${PYTHON_VERSION}/dist-packages/FastTelethonhelper/__init__.py https://raw.githubusercontent.com/Peek426/setup/main/__init__.py
+sudo curl -o /usr/local/lib/python${PYTHON_VERSION}/dist-packages/telethon/client/uploads.py https://raw.githubusercontent.com/Peek426/setup/main/uploads.py
 
 echo "所有操作已完成！"
