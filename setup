@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# 更新软件包
+sudo apt update
+
+# 安装所需的包
+sudo apt install -y python3-pip python3-tk ttf-mscorefonts-installer imagemagick imagemagick-6.q16 ffmpeg
+
+# 查看 ImageMagick 版本
+convert --version
+
+# 安装 Python 库
+pip install telethon
+pip install python-socks[asyncio]
+pip install sympy
+pip install apscheduler
+pip install FastTelethonhelper
+pip install moviepy
+pip install pymysql
+pip install beautifulsoup4
+pip install aiohttp
+
+# 从 GitHub 下载并替换文件
+sudo curl -o /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/<your-username>/setup-scripts/main/policy.xml
+sudo curl -o /usr/local/lib/python3.8/dist-packages/FastTelethonhelper/__init__.py https://raw.githubusercontent.com/<your-username>/setup-scripts/main/__init__.py
+sudo curl -o /usr/local/lib/python3.8/dist-packages/telethon/client/uploads.py https://raw.githubusercontent.com/<your-username>/setup-scripts/main/uploads.py
+
+echo "所有操作已完成！"
