@@ -10,6 +10,7 @@ sudo apt install -y python3-pip python3-tk ttf-mscorefonts-installer imagemagick
 pip install telethon
 pip install python-socks[asyncio]
 pip install sympy
+pip install cryptg
 pip install apscheduler
 pip install telebot
 pip install matplotlib
