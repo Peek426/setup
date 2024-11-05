@@ -70,14 +70,14 @@ class DownloadSender:
     stride: int
 
     def __init__(
-        self,
-        client: TelegramClient,
-        sender: MTProtoSender,
-        file: TypeLocation,
-        offset: int,
-        limit: int,
-        stride: int,
-        count: int,
+            self,
+            client: TelegramClient,
+            sender: MTProtoSender,
+            file: TypeLocation,
+            offset: int,
+            limit: int,
+            stride: int,
+            count: int,
     ) -> None:
         self.sender = sender
         self.client = client
@@ -107,15 +107,15 @@ class UploadSender:
     loop: asyncio.AbstractEventLoop
 
     def __init__(
-        self,
-        client: TelegramClient,
-        sender: MTProtoSender,
-        file_id: int,
-        part_count: int,
-        big: bool,
-        index: int,
-        stride: int,
-        loop: asyncio.AbstractEventLoop,
+            self,
+            client: TelegramClient,
+            sender: MTProtoSender,
+            file_id: int,
+            part_count: int,
+            big: bool,
+            index: int,
+            stride: int,
+            loop: asyncio.AbstractEventLoop,
     ) -> None:
         self.client = client
         self.sender = sender
@@ -170,14 +170,14 @@ class ParallelTransferrer:
 
     @staticmethod
     def _get_connection_count(
-        file_size: int, max_count: int = 20, full_size: int = 100 * 1024 * 1024
+            file_size: int, max_count: int = 20, full_size: int = 100 * 1024 * 1024
     ) -> int:
         if file_size > full_size:
             return max_count
         return math.ceil((file_size / full_size) * max_count)
 
     async def _init_download(
-        self, connections: int, file: TypeLocation, part_count: int, part_size: int
+            self, connections: int, file: TypeLocation, part_count: int, part_size: int
     ) -> None:
         minimum, remainder = divmod(part_count, connections)
 
@@ -205,12 +205,12 @@ class ParallelTransferrer:
         ]
 
     async def _create_download_sender(
-        self,
-        file: TypeLocation,
-        index: int,
-        part_size: int,
-        stride: int,
-        part_count: int,
+            self,
+            file: TypeLocation,
+            index: int,
+            part_size: int,
+            stride: int,
+            part_count: int,
     ) -> DownloadSender:
         return DownloadSender(
             self.client,
@@ -223,7 +223,7 @@ class ParallelTransferrer:
         )
 
     async def _init_upload(
-        self, connections: int, file_id: int, part_count: int, big: bool
+            self, connections: int, file_id: int, part_count: int, big: bool
     ) -> None:
         self.senders = [
             await self._create_upload_sender(file_id, part_count, big, 0, connections),
@@ -236,7 +236,7 @@ class ParallelTransferrer:
         ]
 
     async def _create_upload_sender(
-        self, file_id: int, part_count: int, big: bool, index: int, stride: int
+            self, file_id: int, part_count: int, big: bool, index: int, stride: int
     ) -> UploadSender:
         return UploadSender(
             self.client,
@@ -272,11 +272,11 @@ class ParallelTransferrer:
         return sender
 
     async def init_upload(
-        self,
-        file_id: int,
-        file_size: int,
-        part_size_kb: Optional[float] = None,
-        connection_count: Optional[int] = None,
+            self,
+            file_id: int,
+            file_size: int,
+            part_size_kb: Optional[float] = None,
+            connection_count: Optional[int] = None,
     ) -> Tuple[int, int, bool]:
         connection_count = connection_count or self._get_connection_count(file_size)
         part_size = (part_size_kb or utils.get_appropriated_part_size(file_size)) * 1024
@@ -293,11 +293,11 @@ class ParallelTransferrer:
         await self._cleanup()
 
     async def download(
-        self,
-        file: TypeLocation,
-        file_size: int,
-        part_size_kb: Optional[float] = None,
-        connection_count: Optional[int] = None,
+            self,
+            file: TypeLocation,
+            file_size: int,
+            part_size_kb: Optional[float] = None,
+            connection_count: Optional[int] = None,
     ) -> AsyncGenerator[bytes, None]:
         connection_count = connection_count or self._get_connection_count(file_size)
         part_size = (part_size_kb or utils.get_appropriated_part_size(file_size)) * 1024
@@ -332,14 +332,14 @@ def stream_file(file_to_stream: BinaryIO, chunk_size=1024):
 
 
 async def _internal_transfer_to_telegram(
-    client: TelegramClient, response: BinaryIO, progress_callback: callable
+        client: TelegramClient, response: BinaryIO, progress_callback: callable
 ) -> Tuple[TypeInputFile, int]:
     file_id = helpers.generate_random_long()
     file_size = os.path.getsize(response.name)
 
     hash_md5 = hashlib.md5()
     uploader = ParallelTransferrer(client)
-    part_size, part_count, is_large = await uploader.init_upload(file_id, file_size)
+    part_size, part_count, is_large = await uploader.init_upload(file_id, file_size, connection_count=20)
     buffer = bytearray()
     for data in stream_file(response):
         if progress_callback:
@@ -373,16 +373,16 @@ async def _internal_transfer_to_telegram(
 
 
 async def download_file(
-    client: TelegramClient,
-    location: TypeLocation,
-    out: BinaryIO,
-    progress_callback: callable = None,
+        client: TelegramClient,
+        location: TypeLocation,
+        out: BinaryIO,
+        progress_callback: callable = None,
 ) -> BinaryIO:
     size = location.size
     dc_id, location = utils.get_input_location(location)
     # We lock the transfers because telegram has connection count limits
     downloader = ParallelTransferrer(client, dc_id)
-    downloaded = downloader.download(location, size)
+    downloaded = downloader.download(location, size, connection_count=20)
     async for x in downloaded:
         out.write(x)
         if progress_callback:
@@ -397,14 +397,15 @@ async def download_file(
 
 
 async def upload_file(
-    client: TelegramClient,
-    file: BinaryIO,
-    name,
-    progress_callback: callable = None,
+        client: TelegramClient,
+        file: BinaryIO,
+        name,
+        progress_callback: callable = None,
 ) -> TypeInputFile:
     global filename
     filename = name
     return (await _internal_transfer_to_telegram(client, file, progress_callback))[0]
+
 
 class Timer:
     def __init__(self, time_between=5):
@@ -417,15 +418,17 @@ class Timer:
             return True
         return False
 
+
 def progress_bar_str(done, total):
-    percent = round(done/total*100, 2)
+    percent = round(done / total * 100, 2)
     strin = "░░░░░░░░░░"
     strin = list(strin)
-    for i in range(round(percent)//10):
+    for i in range(round(percent) // 10):
         strin[i] = "█"
     strin = "".join(strin)
     final = f"Percent: {percent}%\n{human_readable_size(done)}/{human_readable_size(total)}\n{strin}"
-    return final 
+    return final
+
 
 def human_readable_size(size, decimal_places=2):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB', 'PB']:
@@ -434,7 +437,9 @@ def human_readable_size(size, decimal_places=2):
         size /= 1024.0
     return f"{size:.{decimal_places}f} {unit}"
 
-async def fast_download(client, msg, reply = None, download_folder = None, progress_bar_function = progress_bar_str,file_name = None):
+
+async def fast_download(client, msg, reply=None, download_folder=None, progress_bar_function=progress_bar_str,
+                        file_name=None):
     timer = Timer()
 
     async def progress_bar(downloaded_bytes, total_bytes):
@@ -453,36 +458,39 @@ async def fast_download(client, msg, reply = None, download_folder = None, progr
 
     if not filename:
         filename = "video.mp4"
-                    
+
     if download_folder == None:
         download_location = dir + filename
     else:
-        download_location = download_folder + filename 
+        download_location = download_folder + filename
 
     with open(download_location, "wb") as f:
         if reply != None:
             await download_file(
-                client=client, 
-                location=file, 
+                client=client,
+                location=file,
                 out=f,
                 progress_callback=progress_bar
             )
         else:
             await download_file(
-                client=client, 
-                location=file, 
+                client=client,
+                location=file,
                 out=f,
             )
     return download_location
 
-async def fast_upload(client, file_location, reply=None, name=None, progress_bar_function = progress_bar_str):
+
+async def fast_upload(client, file_location, reply=None, name=None, progress_bar_function=progress_bar_str):
     timer = Timer()
     if name == None:
         name = file_location.split("/")[-1]
+
     async def progress_bar(downloaded_bytes, total_bytes):
         if timer.can_send():
             data = progress_bar_function(downloaded_bytes, total_bytes)
             await reply.edit(f"Uploading...\n{data}")
+
     if reply != None:
         with open(file_location, "rb") as f:
             the_file = await upload_file(
@@ -498,5 +506,5 @@ async def fast_upload(client, file_location, reply=None, name=None, progress_bar
                 file=f,
                 name=name,
             )
-        
+
     return the_file
