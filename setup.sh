@@ -13,6 +13,7 @@ pip install sympy
 pip install cryptg
 pip install apscheduler
 pip install telebot
+pip install imagekitio
 pip install matplotlib
 pip install captcha
 pip install FastTelethonhelper
