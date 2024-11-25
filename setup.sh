@@ -14,6 +14,7 @@ source myenv/bin/activate # 激活虚拟环境
 pip install telethon
 pip install python-socks[asyncio]
 pip install sympy
+pip install pyyaml
 pip install cryptg
 pip install apscheduler
 pip install telebot
