@@ -2,9 +2,9 @@
 
 # 更新软件包
 sudo apt update
-sudo apt install python3-venv  python3-pip
-sudo apt install python3-dev libmysqlclient-dev
-sudo apt install default-libmysqlclient-dev build-essential pkg-config
+sudo apt install -y python3-venv  python3-pip
+sudo apt install -y python3-dev libmysqlclient-dev
+sudo apt install -y default-libmysqlclient-dev build-essential pkg-config
 # 安装所需的包
 sudo apt install -y python3-pip python3-tk ttf-mscorefonts-installer imagemagick imagemagick-6.q16 ffmpeg
 python3 -m venv myenv # 创建虚拟环境
