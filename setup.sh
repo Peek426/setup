@@ -28,8 +28,8 @@ pip install aiohttp
 
 # 从 GitHub 下载并替换文件
 sudo curl -o /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/policy.xml
-sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/dist-packages/FastTelethonhelper/__init__.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/__init__.py
-sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/dist-packages/telethon/client/uploads.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/uploads.py
-sudo curl -o /usr/local/lib/python${PYTHON_VERSION}/dist-packages/moviepy/video/io/ffmpeg_reader.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/ffmpeg_reader.py
+sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/site-packages/FastTelethonhelper/__init__.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/__init__.py
+sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/site-packages/telethon/client/uploads.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/uploads.py
+sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/site-packages/moviepy/video/io/ffmpeg_reader.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/ffmpeg_reader.py
 
 echo "所有操作已完成！"
