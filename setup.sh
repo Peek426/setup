@@ -22,7 +22,7 @@ pip install imagekitio
 pip install matplotlib
 pip install captcha
 pip install FastTelethonhelper
-pip install moviepy
+pip install moviepy==1.0.3 numpy>=1.18.1 imageio>=2.5.0 decorator>=4.3.0 tqdm>=4.0.0 Pillow>=7.0.0 scipy>=1.3.0 pydub>=0.23.0 audiofile>=0.0.0 opencv-python>=4.5
 pip install pymysql
 pip install beautifulsoup4
 pip install aiohttp
