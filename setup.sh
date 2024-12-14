@@ -1,4 +1,5 @@
 #!/bin/bash
+START_TIME=$SECONDS
 # 获取 Python 版本
 PYTHON_VERSION=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
 # 更新软件包
@@ -33,4 +34,5 @@ sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/site-packages/FastTelethonhelpe
 sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/site-packages/telethon/client/uploads.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/uploads.py
 sudo curl -o ./myenv/lib/python${PYTHON_VERSION}/site-packages/moviepy/video/io/ffmpeg_reader.py https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/ffmpeg_reader.py
 
-echo "所有操作已完成！"
+ELAPSED_TIME=$(($SECONDS - $START_TIME))
+echo "所有操作已完成！耗时：$ELAPSED_TIME 秒"
