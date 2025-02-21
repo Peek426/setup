@@ -27,6 +27,8 @@ pip install moviepy==1.0.3 numpy>=1.18.1 imageio>=2.5.0 decorator>=4.3.0 tqdm>=4
 pip install pymysql
 pip install beautifulsoup4
 pip install aiohttp
+pip install pandas
+pip install seaborn
 
 # 从 GitHub 下载并替换文件
 sudo curl -o /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/Peek426/setup/refs/heads/main/policy.xml
