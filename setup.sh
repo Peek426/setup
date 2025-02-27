@@ -6,6 +6,7 @@ PYTHON_VERSION=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.v
 sudo apt update
 sudo apt install -y python3-venv  python3-pip
 sudo apt install -y python3-dev libmysqlclient-dev
+sudo apt install -y ifstat
 sudo apt install -y default-libmysqlclient-dev build-essential pkg-config
 # 安装所需的包
 sudo apt install -y python3-pip python3-tk ttf-mscorefonts-installer imagemagick imagemagick-6.q16 ffmpeg
