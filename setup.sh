@@ -17,6 +17,7 @@ pip install python-socks[asyncio]
 pip install sympy
 pip install pyyaml
 pip install cryptg
+pip install telethon
 pip install apscheduler
 pip install telebot
 pip install imagekitio
